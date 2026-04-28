@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 180">
+  <!-- Clouds -->
+  <ellipse cx="290" cy="20" rx="35" ry="12" fill="#8B80F0" opacity="0.6"/>
+  <ellipse cx="270" cy="26" rx="22" ry="10" fill="#8B80F0" opacity="0.5"/>
+  <ellipse cx="110" cy="15" rx="25" ry="9" fill="#8B80F0" opacity="0.4"/>
+
+  <!-- Tree left -->
+  <rect x="54" y="110" width="6" height="28" fill="#8B80F0" opacity="0.7"/>
+  <ellipse cx="57" cy="95" rx="20" ry="24" fill="#8B80F0" opacity="0.5"/>
+
+  <!-- Tree right -->
+  <rect x="334" y="115" width="5" height="22" fill="#8B80F0" opacity="0.7"/>
+  <ellipse cx="337" cy="102" rx="16" ry="20" fill="#8B80F0" opacity="0.45"/>
+
+  <!-- Small tree -->
+  <rect x="358" y="125" width="4" height="16" fill="#8B80F0" opacity="0.6"/>
+  <ellipse cx="360" cy="116" rx="11" ry="14" fill="#8B80F0" opacity="0.4"/>
+
+  <!-- Fence -->
+  <line x1="305" y1="135" x2="385" y2="135" stroke="#8B80F0" stroke-width="2" opacity="0.4"/>
+  <line x1="305" y1="128" x2="385" y2="128" stroke="#8B80F0" stroke-width="2" opacity="0.4"/>
+  <rect x="312" y="122" width="3" height="20" fill="#8B80F0" opacity="0.4"/>
+  <rect x="332" y="122" width="3" height="20" fill="#8B80F0" opacity="0.4"/>
+  <rect x="352" y="122" width="3" height="20" fill="#8B80F0" opacity="0.4"/>
+  <rect x="372" y="122" width="3" height="20" fill="#8B80F0" opacity="0.4"/>
+
+  <!-- Barn -->
+  <rect x="130" y="75" width="105" height="68" rx="2" fill="#8B80F0" opacity="0.6"/>
+  <polygon points="118,75 182,38 247,75" fill="#8B80F0" opacity="0.7"/>
+  <!-- Barn door (arch shape) -->
+  <path d="M163,143 L163,120 Q163,105 180,105 Q197,105 197,120 L197,143 Z" fill="#1B1464" opacity="0.4"/>
+  <!-- Windows -->
+  <rect x="140" y="92" width="14" height="12" rx="2" fill="#1B1464" opacity="0.35"/>
+  <rect x="210" y="92" width="14" height="12" rx="2" fill="#1B1464" opacity="0.35"/>
+
+  <!-- Small shed -->
+  <rect x="245" y="102" width="48" height="42" rx="2" fill="#8B80F0" opacity="0.5"/>
+  <polygon points="240,102 269,82 298,102" fill="#8B80F0" opacity="0.6"/>
+
+  <!-- Hay bale -->
+  <ellipse cx="100" cy="138" rx="24" ry="20" fill="#8B80F0" opacity="0.5"/>
+
+  <!-- Cow -->
+  <ellipse cx="195" cy="160" rx="30" ry="17" fill="#8B80F0" opacity="0.7"/>
+  <ellipse cx="220" cy="170" rx="11" ry="9" fill="#8B80F0" opacity="0.7"/>
+  <rect x="173" y="173" width="4" height="18" rx="2" fill="#8B80F0" opacity="0.65"/>
+  <rect x="183" y="174" width="4" height="18" rx="2" fill="#8B80F0" opacity="0.65"/>
+  <rect x="203" y="174" width="4" height="18" rx="2" fill="#8B80F0" opacity="0.65"/>
+  <rect x="211" y="173" width="4" height="18" rx="2" fill="#8B80F0" opacity="0.65"/>
+
+  <!-- Chickens -->
+  <ellipse cx="260" cy="142" rx="6" ry="5" fill="#8B80F0" opacity="0.5"/>
+  <circle cx="264" cy="138" r="3.5" fill="#8B80F0" opacity="0.5"/>
+  <ellipse cx="278" cy="144" rx="5" ry="4" fill="#8B80F0" opacity="0.45"/>
+  <circle cx="281" cy="141" r="3" fill="#8B80F0" opacity="0.45"/>
+
+  <!-- Ground spots -->
+  <ellipse cx="130" cy="148" rx="14" ry="3" fill="#8B80F0" opacity="0.2"/>
+  <ellipse cx="270" cy="150" rx="12" ry="3" fill="#8B80F0" opacity="0.2"/>
+  <ellipse cx="190" cy="195" rx="40" ry="5" fill="#8B80F0" opacity="0.15"/>
+</svg>
