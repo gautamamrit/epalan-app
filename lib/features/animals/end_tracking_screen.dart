@@ -125,20 +125,21 @@ class _EndTrackingScreenState extends ConsumerState<EndTrackingScreen> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: 72,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 12),
+          padding: const EdgeInsets.only(left: 20),
           child: Center(
             child: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
-                width: 40,
-                height: 40,
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.border, width: 1.5),
                 ),
                 child: const Icon(Icons.close,
-                    color: AppColors.textPrimary, size: 20),
+                    color: AppColors.primary, size: 20),
               ),
             ),
           ),

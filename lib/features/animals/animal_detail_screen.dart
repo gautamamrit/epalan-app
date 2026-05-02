@@ -14,12 +14,18 @@ class AnimalDetailScreen extends ConsumerStatefulWidget {
   final String farmId;
   final String animalId;
   final int initialTab;
+  final String? animalName;
+  final String? categoryName;
+  final String? breedName;
 
   const AnimalDetailScreen({
     super.key,
     required this.farmId,
     required this.animalId,
     this.initialTab = 0,
+    this.animalName,
+    this.categoryName,
+    this.breedName,
   });
 
   @override
@@ -27,26 +33,16 @@ class AnimalDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
+    {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this, initialIndex: widget.initialTab);
-    // Load animal detail
     Future.microtask(() {
       ref.read(animalDetailProvider.notifier).loadAnimalDetail(
             widget.farmId,
             widget.animalId,
           );
     });
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
   }
 
   Future<void> _completeVaccination(Vaccination vaccination) async {
@@ -259,60 +255,8 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
     final detail = detailState.detail;
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: Center(
-            child: GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.border, width: 1.5),
-                ),
-                child: const Icon(Icons.arrow_back,
-                    color: AppColors.textPrimary, size: 20),
-              ),
-            ),
-          ),
-        ),
-        centerTitle: true,
-        title: const Text(
-          'Animal Details',
-          style: TextStyle(
-            color: AppColors.textPrimary,
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          if (detail != null)
-            Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Center(
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    color: detail.animal.isActive
-                        ? AppColors.success
-                        : AppColors.textSecondary,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-      body: detailState.isLoading
-          ? _buildLoadingSkeleton()
-          : detailState.error != null
+      backgroundColor: AppColors.primary,
+      body: detailState.error != null
               ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -334,9 +278,9 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
                     ],
                   ),
                 )
-              : detail == null
-                  ? const Center(child: Text('No animal data'))
-                  : _buildContent(detail),
+              : detail != null
+                  ? _buildContent(detail)
+                  : Container(color: AppColors.primary),
     );
   }
 
@@ -347,97 +291,100 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
         animal.category?.name.toLowerCase().contains('layer') ?? false;
     final currentQuantity = stats.currentQuantity ?? stats.initialQuantity;
 
-    return Column(
-      children: [
-        // ── HERO SECTION (gray bg, centered like Helen) ──
-        Container(
-          width: double.infinity,
-          color: AppColors.background,
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-          child: Column(
-            children: [
-              Text(
-                animal.displayName,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                [
-                  animal.category?.name ?? 'Animal',
-                  if (animal.breed != null) animal.breed!.name,
-                ].join(' · '),
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 14),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  'Day ${stats.daysElapsed} · Started ${_formatDate(animal.startDate)}',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // Action icons (horizontal, icon-only)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _actionCircle(
-                    icon: Icons.edit_outlined,
-                    onTap: () => _editAnimal(detail),
-                  ),
-                  const SizedBox(width: 12),
-                  if (animal.isActive) ...[
-                    _actionCircle(
-                      icon: Icons.check_circle_outline,
-                      onTap: () => _changeAnimalStatus(detail),
-                      color: AppColors.success,
-                    ),
-                    const SizedBox(width: 12),
-                  ],
-                  _actionCircle(
-                    icon: Icons.delete_outline,
-                    onTap: () => _deleteAnimal(detail),
-                    isDestructive: true,
-                  ),
-                  const SizedBox(width: 12),
-                  if (animal.shortCode != null)
-                    _actionCircle(
-                      icon: Icons.qr_code_2,
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => AnimalQrScreen(
-                            animalName: animal.displayName,
-                            shortCode: animal.shortCode!,
-                            categoryName: animal.category?.name,
-                            breedName: animal.breed?.name,
-                          ),
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // ── NAVY HEADER (minimal — name + breed only) ──
+          Container(
+            color: AppColors.primary,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                child: SizedBox(
+                  height: 160,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 40,
+                        child: GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        behavior: HitTestBehavior.opaque,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 36, height: 36,
+                              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.15), shape: BoxShape.circle),
+                              child: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
+                            ),
+                            const SizedBox(width: 8),
+                            Text('Animals', style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 14)),
+                          ],
                         ),
                       ),
                     ),
+                    const SizedBox(height: 20),
+                    Text(animal.displayName, style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 4),
+                    Text(
+                      [animal.category?.name ?? 'Animal', if (animal.breed != null) animal.breed!.name].join(' · '),
+                      style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 14),
+                    ),
+                  ],
+                ),
+                ),
+              ),
+            ),
+          ),
+
+        // ── CONTENT AREA (light background, fills remaining space) ──
+        ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: MediaQuery.of(context).size.height - 200,
+          ),
+          child: Container(
+            color: AppColors.background,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+
+          // ── QUICK ACTIONS (overlaps into navy via negative margin) ──
+          Transform.translate(
+            offset: const Offset(0, -24),
+            child: Container(
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
-            ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _QuickAction(icon: Icons.edit_outlined, label: 'Edit', onTap: () => _editAnimal(detail)),
+                  if (animal.shortCode != null)
+                    _QuickAction(icon: Icons.qr_code_2, label: 'QR\nCode', onTap: () => Navigator.push(context, MaterialPageRoute(
+                      builder: (_) => AnimalQrScreen(animalName: animal.displayName, shortCode: animal.shortCode!, categoryName: animal.category?.name, breedName: animal.breed?.name),
+                    ))),
+                  if (animal.isActive)
+                    _QuickAction(icon: Icons.check_circle_outline, label: 'End\nTracking', onTap: () => _changeAnimalStatus(detail)),
+                  _QuickAction(icon: Icons.delete_outline, label: 'Delete', onTap: () => _deleteAnimal(detail), isDestructive: true),
+                ],
+              ),
+            ),
           ),
-        ),
 
         // ── STATS CARD (two columns) ──
         Container(
@@ -553,56 +500,204 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
 
         const SizedBox(height: 12),
 
-        // ── TAB BAR (fixed) ──
+        // ── SECTION CARDS (grouped in one card) ──
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
-            color: AppColors.background,
-            borderRadius: BorderRadius.circular(12),
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: AppColors.border),
           ),
-          child: TabBar(
-            controller: _tabController,
-            labelColor: AppColors.primary,
-            unselectedLabelColor: AppColors.textSecondary,
-            indicatorSize: TabBarIndicatorSize.tab,
-            dividerColor: Colors.transparent,
-            indicator: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.06),
-                  blurRadius: 4,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-            indicatorPadding: const EdgeInsets.all(4),
-            labelStyle: const TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w600),
-            unselectedLabelStyle: const TextStyle(
-                fontSize: 15, fontWeight: FontWeight.w500),
-            tabs: const [
-              Tab(text: 'Records'),
-              Tab(text: 'Vaccination'),
-              Tab(text: 'Meds'),
+          child: Column(
+            children: [
+              _buildNavRow(
+                icon: Icons.edit_note_rounded,
+                title: 'Daily Records',
+                subtitle: detail.recentRecords.isEmpty
+                    ? 'No records yet'
+                    : '${detail.recentRecords.length} records',
+                count: detail.recentRecords.length,
+                onTap: () => _openRecordsScreen(detail),
+              ),
+              const Divider(height: 1, color: AppColors.border, indent: 16, endIndent: 16),
+              _buildNavRow(
+                icon: Icons.vaccines,
+                title: 'Vaccinations',
+                subtitle: () {
+                  final pending = detail.upcomingHealth.vaccinations.where((v) => !v.isCompleted).length;
+                  final total = detail.upcomingHealth.vaccinations.length;
+                  if (total == 0) return 'No vaccinations scheduled';
+                  return '$pending pending of $total';
+                }(),
+                count: detail.upcomingHealth.vaccinations.where((v) => !v.isCompleted).length,
+                hasWarning: detail.upcomingHealth.vaccinations.any((v) => v.isOverdue),
+                onTap: () => _openVaccinationsScreen(detail),
+              ),
+              const Divider(height: 1, color: AppColors.border, indent: 16, endIndent: 16),
+              _buildNavRow(
+                icon: Icons.medication,
+                title: 'Medications',
+                subtitle: () {
+                  final pending = detail.upcomingHealth.medications.where((m) => m.isPending).length;
+                  final total = detail.upcomingHealth.medications.length;
+                  if (total == 0) return 'No medications scheduled';
+                  return '$pending pending of $total';
+                }(),
+                count: detail.upcomingHealth.medications.where((m) => m.isPending).length,
+                onTap: () => _openMedicationsScreen(detail),
+              ),
             ],
           ),
         ),
 
-        // ── TAB CONTENT (scrollable) ──
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildRecordsTab(detail),
-              _buildVaccinationsTab(detail),
-              _buildMedicationsTab(detail),
+        const SizedBox(height: 32),
             ],
           ),
-        ),
+        ), // end content area Container
+        ), // end ConstrainedBox
       ],
+      ),
     );
+  }
+
+  Widget _buildNavRow({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required int count,
+    required VoidCallback onTap,
+    bool hasWarning = false,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Container(
+              width: 40, height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.08),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, size: 20, color: AppColors.primary),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      if (hasWarning)
+                        Container(
+                          width: 8, height: 8,
+                          margin: const EdgeInsets.only(right: 6),
+                          decoration: const BoxDecoration(color: AppColors.error, shape: BoxShape.circle),
+                        ),
+                      Text(subtitle, style: TextStyle(fontSize: 13, color: hasWarning ? AppColors.error : AppColors.textSecondary)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            if (count > 0)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                margin: const EdgeInsets.only(right: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text('$count', style: const TextStyle(color: AppColors.primary, fontSize: 12, fontWeight: FontWeight.w600)),
+              ),
+            const Icon(Icons.chevron_right_rounded, size: 22, color: AppColors.textTertiary),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openRecordsScreen(AnimalDetail detail) {
+    final isLayer = detail.animal.category?.name.toLowerCase().contains('layer') ?? false;
+    Navigator.push(context, PageRouteBuilder(
+      pageBuilder: (_, __, ___) => _SubListScreen(
+        title: 'Daily Records',
+        backLabel: detail.animal.displayName,
+        onAdd: () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (_) => AddRecordScreen(
+              farmId: widget.farmId, animalId: widget.animalId,
+              animalName: detail.animal.displayName, currentDay: detail.stats.daysElapsed, isLayer: isLayer,
+            ),
+          )).then((result) {
+            if (result != null) ref.read(animalDetailProvider.notifier).loadAnimalDetail(widget.farmId, widget.animalId);
+          });
+        },
+        child: detail.recentRecords.isEmpty
+            ? Center(child: _buildEmptyState(icon: Icons.edit_note_rounded, title: 'No records yet', subtitle: 'Add your first daily record'))
+            : ListView.builder(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+                itemCount: detail.recentRecords.length,
+                itemBuilder: (_, i) => _buildRecordCard(detail.recentRecords[i], detail),
+              ),
+      ),
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ));
+  }
+
+  void _openVaccinationsScreen(AnimalDetail detail) {
+    final vaccinations = detail.upcomingHealth.vaccinations;
+    Navigator.push(context, PageRouteBuilder(
+      pageBuilder: (_, __, ___) => _SubListScreen(
+        title: 'Vaccinations',
+        backLabel: detail.animal.displayName,
+        onAdd: () => _addManualEntry('vaccination'),
+        child: vaccinations.isEmpty
+            ? _buildApplyProgramSection(type: 'vaccination', categoryId: detail.animal.categoryId, icon: Icons.vaccines)
+            : ListView(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+                children: [
+                  ...vaccinations.where((v) => !v.isCompleted).map((v) => _buildVaccinationCard(v)),
+                  if (vaccinations.any((v) => v.isCompleted)) ...[
+                    _buildSectionHeader('COMPLETED'),
+                    ...vaccinations.where((v) => v.isCompleted).map((v) => _buildVaccinationCard(v)),
+                  ],
+                ],
+              ),
+      ),
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ));
+  }
+
+  void _openMedicationsScreen(AnimalDetail detail) {
+    final medications = detail.upcomingHealth.medications;
+    Navigator.push(context, PageRouteBuilder(
+      pageBuilder: (_, __, ___) => _SubListScreen(
+        title: 'Medications',
+        backLabel: detail.animal.displayName,
+        onAdd: () => _addManualEntry('medication'),
+        child: medications.isEmpty
+            ? _buildApplyProgramSection(type: 'medication', categoryId: detail.animal.categoryId, icon: Icons.medication)
+            : ListView(
+                padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+                children: [
+                  ...medications.where((m) => m.isPending).map((m) => _buildMedicationCard(m)),
+                  if (medications.any((m) => m.isCompleted)) ...[
+                    _buildSectionHeader('COMPLETED'),
+                    ...medications.where((m) => m.isCompleted).map((m) => _buildMedicationCard(m)),
+                  ],
+                ],
+              ),
+      ),
+      transitionDuration: Duration.zero,
+      reverseTransitionDuration: Duration.zero,
+    ));
   }
 
   void _editRecord(DailyRecord record, AnimalDetail detail, bool isLayer) async {
@@ -785,24 +880,16 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
     bool isDestructive = false,
     Color? color,
   }) {
-    final c = isDestructive ? AppColors.error : (color ?? AppColors.primary);
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 48,
-        height: 48,
+        width: 36,
+        height: 36,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: c.withValues(alpha: 0.08),
-          border: Border.all(
-            color: c.withValues(alpha: 0.25),
-          ),
+          color: Colors.white.withValues(alpha: 0.15),
         ),
-        child: Icon(
-          icon,
-          size: 22,
-          color: c,
-        ),
+        child: Icon(icon, size: 18, color: isDestructive ? const Color(0xFFFF6B6B) : Colors.white),
       ),
     );
   }
@@ -1828,6 +1915,121 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// =============================================================================
+// SUB LIST SCREEN (records, vaccinations, medications)
+// =============================================================================
+
+class _SubListScreen extends StatelessWidget {
+  final String title;
+  final Widget child;
+  final VoidCallback? onAdd;
+  final String? backLabel;
+
+  const _SubListScreen({required this.title, required this.child, this.onAdd, this.backLabel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        toolbarHeight: 72,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Center(
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: 36, height: 36,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.arrow_back, color: AppColors.primary, size: 20),
+              ),
+            ),
+          ),
+        ),
+        centerTitle: true,
+        title: Column(
+          children: [
+            Text(title, style: const TextStyle(color: AppColors.textPrimary, fontSize: 17, fontWeight: FontWeight.w600)),
+            if (backLabel != null) ...[
+              const SizedBox(height: 2),
+              Text(backLabel!, style: const TextStyle(color: AppColors.textSecondary, fontSize: 12, fontWeight: FontWeight.w400)),
+            ],
+          ],
+        ),
+        actions: [
+          if (onAdd != null)
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Center(
+                child: GestureDetector(
+                  onTap: () => onAdd!(),
+                  child: Container(
+                    width: 36, height: 36,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.08),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.add, color: AppColors.primary, size: 20),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+      body: child,
+    );
+  }
+}
+
+// =============================================================================
+// QUICK ACTION (same style as home/animals screens)
+// =============================================================================
+
+class _QuickAction extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final bool isDestructive;
+
+  const _QuickAction({required this.icon, required this.label, required this.onTap, this.isDestructive = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isDestructive ? AppColors.error : AppColors.primary;
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        width: 64,
+        child: Column(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.08),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: color, size: 22),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: isDestructive ? AppColors.error : AppColors.textPrimary, height: 1.3),
             ),
           ],
         ),

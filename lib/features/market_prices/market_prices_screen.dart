@@ -1,12 +1,13 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../data/models/market_price.dart';
 import '../../data/providers/farm_provider.dart';
 import '../../data/providers/market_price_provider.dart';
-import '../shared/widgets/app_shell.dart';
 import '../../data/services/location_service.dart';
+import '../shared/widgets/app_shell.dart';
 
 final _provincesProvider = FutureProvider<List<LocationProvince>>((ref) {
   return LocationService().getProvinces();
@@ -21,6 +22,11 @@ const _rangeOptions = [
 ];
 
 const _chartColor = Color(0xFF2563EB);
+const _navy = AppColors.primary;
+const _navyLight = Color(0xFF2D2380);
+const _bg = AppColors.background;
+const _textDark = AppColors.textPrimary;
+const _textMuted = AppColors.textSecondary;
 
 class MarketPricesScreen extends ConsumerStatefulWidget {
   const MarketPricesScreen({super.key});
@@ -42,8 +48,13 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              width: 36, height: 4,
+              decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2)),
+            ),
             const Padding(
-              padding: EdgeInsets.fromLTRB(20, 16, 20, 8),
+              padding: EdgeInsets.all(16),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text('Select Province', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
@@ -143,195 +154,198 @@ class _MarketPricesScreenState extends ConsumerState<MarketPricesScreen> {
       });
     }
 
-    // Reset when leaving tab so data refreshes on return
     if (!isVisible && _initialized) {
       _initialized = false;
     }
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // Header
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 8),
-                    const Center(
-                      child: Text(
-                        'Market Prices',
-                        style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    // Province selector
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Province', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
-                    ),
-                    const SizedBox(height: 6),
-                    provincesAsync.when(
-                      data: (provinces) => GestureDetector(
-                        onTap: () => _showProvinceSelector(provinces),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                          decoration: BoxDecoration(
-                            color: AppColors.surface,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.border),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  provinces.where((p) => p.id == mpState.selectedProvinceId).firstOrNull?.name ?? 'Select Province',
-                                  style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
-                                ),
-                              ),
-                              const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
-                            ],
-                          ),
-                        ),
-                      ),
-                      loading: () => const SizedBox.shrink(),
-                      error: (_, __) => const SizedBox.shrink(),
-                    ),
-                    const SizedBox(height: 12),
-
-                    // Item filter
-                    if (mpState.items.isNotEmpty) ...[
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text('Items', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
-                      ),
-                      const SizedBox(height: 6),
-                    ],
-                    if (mpState.items.isNotEmpty)
-                      GestureDetector(
-                        onTap: () => _showItemFilter(mpState.items),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                          decoration: BoxDecoration(
-                            color: AppColors.surface,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.border),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  mpState.selectedItemIds.isEmpty
-                                      ? 'All Items'
-                                      : '${mpState.selectedItemIds.length} item${mpState.selectedItemIds.length > 1 ? 's' : ''} selected',
-                                  style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
-                                ),
-                              ),
-                              const Icon(Icons.keyboard_arrow_down, color: AppColors.textSecondary),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                    const SizedBox(height: 12),
-
-                    // Range buttons
-                    Row(
-                      children: _rangeOptions.map((opt) {
-                        final isActive = mpState.selectedDays == opt.days;
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 6),
-                          child: GestureDetector(
-                            onTap: () => ref.read(marketPriceProvider.notifier).changeDays(opt.days),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: isActive ? AppColors.textPrimary : AppColors.surface,
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: isActive ? AppColors.textPrimary : AppColors.border),
-                              ),
-                              child: Text(
-                                opt.label,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: isActive ? Colors.white : AppColors.textSecondary,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: _navy,
+        body: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── NAVY HEADER ──
+              Container(
+                color: _navy,
+                child: SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+                    child: SizedBox(
+                      height: 160,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Province selector (centered)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 54),
+                            Expanded(
+                              child: Center(
+                                child: provincesAsync.when(
+                                  data: (provinces) => GestureDetector(
+                                    onTap: () => _showProvinceSelector(provinces),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                                      decoration: BoxDecoration(
+                                        color: _navyLight,
+                                        borderRadius: BorderRadius.circular(28),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ConstrainedBox(
+                                            constraints: const BoxConstraints(maxWidth: 180),
+                                            child: Text(
+                                              provinces.where((p) => p.id == mpState.selectedProvinceId).firstOrNull?.name ?? 'Select Province',
+                                              style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 20),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  loading: () => const SizedBox.shrink(),
+                                  error: (_, __) => const SizedBox.shrink(),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
+                            // Item filter
+                            GestureDetector(
+                              onTap: () {
+                                if (mpState.items.isNotEmpty) _showItemFilter(mpState.items);
+                              },
+                              child: Container(
+                                width: 44, height: 44,
+                                decoration: BoxDecoration(
+                                  color: _navyLight,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    const Icon(Icons.filter_list, color: Colors.white, size: 22),
+                                    if (mpState.selectedItemIds.isNotEmpty)
+                                      Positioned(
+                                        top: 8, right: 8,
+                                        child: Container(
+                                          width: 8, height: 8,
+                                          decoration: const BoxDecoration(color: Color(0xFFFF6B6B), shape: BoxShape.circle),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Market Prices',
+                          style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.w700),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Latest livestock prices in your area',
+                          style: TextStyle(color: Colors.white.withValues(alpha: 0.7), fontSize: 14),
+                        ),
+                      ],
                     ),
-                  ],
+                    ),
+                  ),
                 ),
               ),
-            ),
 
-            // Content
-            if (mpState.isLoading)
-              const SliverFillRemaining(child: Center(child: CircularProgressIndicator()))
-            else if (mpState.error != null)
-              SliverFillRemaining(
-                child: Center(
+              // ── CONTENT (light background) ──
+              ConstrainedBox(
+                constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - 250),
+                child: Container(
+                  color: _bg,
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.error_outline, size: 48, color: AppColors.textSecondary),
-                      const SizedBox(height: 12),
-                      const Text('Failed to load prices', style: TextStyle(color: AppColors.textSecondary)),
-                      const SizedBox(height: 8),
-                      TextButton(
-                        onPressed: () => ref.read(marketPriceProvider.notifier).load(provinceId: mpState.selectedProvinceId),
-                        child: const Text('Retry'),
+                      // Range buttons
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 16, 20, 12),
+                        child: Row(
+                          children: _rangeOptions.map((opt) {
+                            final isActive = mpState.selectedDays == opt.days;
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 6),
+                              child: GestureDetector(
+                                onTap: () => ref.read(marketPriceProvider.notifier).changeDays(opt.days),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: isActive ? _textDark : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(color: isActive ? _textDark : AppColors.border),
+                                  ),
+                                  child: Text(
+                                    opt.label,
+                                    style: TextStyle(
+                                      fontSize: 12, fontWeight: FontWeight.w500,
+                                      color: isActive ? Colors.white : _textMuted,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
+
+                      // Price cards
+                      if (mpState.isLoading)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 60),
+                          child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 2),
+                        )
+                      else if (mpState.items.isEmpty)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 40),
+                          child: Column(
+                            children: [
+                              Icon(Icons.trending_up, size: 48, color: AppColors.textTertiary),
+                              SizedBox(height: 12),
+                              Text('No price data available', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: _textDark)),
+                              SizedBox(height: 4),
+                              Text('Prices will appear here once available', style: TextStyle(fontSize: 14, color: _textMuted)),
+                            ],
+                          ),
+                        )
+                      else ...[
+                        () {
+                          final filteredItems = mpState.selectedItemIds.isEmpty
+                              ? mpState.items
+                              : mpState.items.where((i) => mpState.selectedItemIds.contains(i.id)).toList();
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+                            child: Column(
+                              children: filteredItems.map((item) {
+                                final latest = mpState.latestForItem(item.id);
+                                final history = mpState.historyForItem(item.id);
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: _PriceCard(item: item, price: latest, history: history),
+                                );
+                              }).toList(),
+                            ),
+                          );
+                        }(),
+                      ],
                     ],
                   ),
                 ),
-              )
-            else if (mpState.items.isEmpty)
-              const SliverFillRemaining(
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.trending_up, size: 64, color: AppColors.border),
-                      SizedBox(height: 12),
-                      Text('No price data available', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-                      SizedBox(height: 4),
-                      Text('Prices will appear here once available', style: TextStyle(fontSize: 14, color: AppColors.textSecondary)),
-                    ],
-                  ),
-                ),
-              )
-            else ...[
-              () {
-                final filteredItems = mpState.selectedItemIds.isEmpty
-                    ? mpState.items
-                    : mpState.items.where((i) => mpState.selectedItemIds.contains(i.id)).toList();
-                return SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final item = filteredItems[index];
-                        final latest = mpState.latestForItem(item.id);
-                        final history = mpState.historyForItem(item.id);
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
-                          child: _PriceCard(item: item, price: latest, history: history),
-                        );
-                      },
-                      childCount: filteredItems.length,
-                    ),
-                  ),
-                );
-              }(),
+              ),
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -371,7 +385,7 @@ class _PriceCardState extends State<_PriceCard> {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
         border: Border.all(color: AppColors.border),
       ),
       child: Column(
@@ -428,9 +442,9 @@ class _PriceCardState extends State<_PriceCard> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 2),
+                              const SizedBox(height: 4),
                               Text(
-                                'Updated ${_timeAgo(price!.date)}${price!.source != null ? ' \u00b7 Source: ${price!.source}' : ''}',
+                                'Updated ${_timeAgo(price!.date)}${price!.source != null ? ' · Source: ${price!.source}' : ''}',
                                 style: const TextStyle(fontSize: 11, color: AppColors.textSecondary),
                               ),
                             ],
@@ -446,7 +460,7 @@ class _PriceCardState extends State<_PriceCard> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Icon(
-                                _chartExpanded ? Icons.show_chart : Icons.show_chart,
+                                Icons.show_chart,
                                 size: 20,
                                 color: _chartExpanded ? _chartColor : AppColors.textSecondary,
                               ),
@@ -475,14 +489,12 @@ class _PriceCardState extends State<_PriceCard> {
   }
 
   Widget _buildChart() {
-    // Build date-indexed data with forward-fill
     final dates = <String>[];
     final priceMap = <String, double>{};
     for (final p in history) {
       priceMap[p.date] = p.price;
     }
 
-    // Build continuous date range
     final sortedDates = priceMap.keys.toList()..sort();
     final start = DateTime.parse(sortedDates.first);
     final end = DateTime.now();
@@ -490,7 +502,6 @@ class _PriceCardState extends State<_PriceCard> {
       dates.add('${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}');
     }
 
-    // Forward-fill
     final values = <double>[];
     final realPoints = <int>{};
     double? lastKnown;
@@ -519,20 +530,15 @@ class _PriceCardState extends State<_PriceCard> {
     return LineChart(
       LineChartData(
         gridData: FlGridData(
-          show: true,
-          drawVerticalLine: false,
+          show: true, drawVerticalLine: false,
           horizontalInterval: ((maxY - minY) / 4).clamp(1, double.infinity),
           getDrawingHorizontalLine: (_) => const FlLine(color: AppColors.border, strokeWidth: 0.5, dashArray: [4, 4]),
         ),
         titlesData: FlTitlesData(
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 42,
-              getTitlesWidget: (value, _) => Text(
-                'Rs ${value.toInt()}',
-                style: const TextStyle(fontSize: 9, color: AppColors.textSecondary),
-              ),
+              showTitles: true, reservedSize: 42,
+              getTitlesWidget: (value, _) => Text('Rs ${value.toInt()}', style: const TextStyle(fontSize: 9, color: AppColors.textSecondary)),
             ),
           ),
           bottomTitles: AxisTitles(
@@ -559,19 +565,11 @@ class _PriceCardState extends State<_PriceCard> {
         maxY: (maxY + padding).ceilToDouble(),
         lineBarsData: [
           LineChartBarData(
-            spots: spots,
-            isCurved: false,
-            color: _chartColor,
-            barWidth: 2,
-            isStrokeCapRound: true,
+            spots: spots, isCurved: false, color: _chartColor, barWidth: 2, isStrokeCapRound: true,
             dotData: FlDotData(
               show: true,
               checkToShowDot: (spot, _) => realPoints.contains(spot.x.toInt()),
-              getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
-                radius: 2,
-                color: _chartColor,
-                strokeWidth: 0,
-              ),
+              getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(radius: 2, color: _chartColor, strokeWidth: 0),
             ),
             belowBarData: BarAreaData(show: false),
           ),

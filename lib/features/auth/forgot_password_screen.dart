@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../../core/api/api_client.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/app_form_fields.dart';
+import '../../l10n/app_localizations.dart';
 import 'reset_password_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -60,6 +61,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -93,8 +95,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Forgot Password',
+                Text(
+                  l10n.forgotPasswordTitle,
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
@@ -103,8 +105,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Enter your email and we\'ll send you a reset code',
+                Text(
+                  l10n.forgotPasswordDesc,
                   style: TextStyle(
                     fontSize: 15,
                     color: AppColors.textSecondary,
@@ -114,21 +116,21 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 const SizedBox(height: 32),
                 AppTextField(
                   controller: _emailController,
-                  label: 'Email *',
+                  label: l10n.email,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _submit(),
                   validator: (v) {
-                    if (v == null || v.trim().isEmpty) return 'Required';
+                    if (v == null || v.trim().isEmpty) return l10n.required;
                     if (!v.contains('@') || !v.contains('.')) {
-                      return 'Enter a valid email';
+                      return l10n.enterValidEmail;
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 24),
                 AppPrimaryButton(
-                  label: 'Send Reset Code',
+                  label: l10n.sendResetCode,
                   isLoading: _isSending,
                   onPressed: _submit,
                 ),

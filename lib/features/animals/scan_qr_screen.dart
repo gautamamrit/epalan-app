@@ -187,17 +187,18 @@ class _ScanQrScreenState extends ConsumerState<ScanQrScreen> {
         backgroundColor: Colors.black,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight: 72,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 12),
+          padding: const EdgeInsets.only(left: 20),
           child: Center(
             child: GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
-                width: 40,
-                height: 40,
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white38, width: 1.5),
                 ),
                 child: const Icon(Icons.arrow_back,
                     color: Colors.white, size: 20),

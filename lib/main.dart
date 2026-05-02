@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/theme/app_theme.dart';
 import 'data/providers/auth_provider.dart';
+import 'data/providers/locale_provider.dart';
 import 'features/auth/login_screen.dart';
 import 'features/shared/widgets/app_shell.dart';
 
@@ -41,16 +43,21 @@ class NoStretchScrollBehavior extends MaterialScrollBehavior {
   }
 }
 
-class EPalanApp extends StatelessWidget {
+class EPalanApp extends ConsumerWidget {
   const EPalanApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+
     return MaterialApp(
       title: 'ePalan',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
       scrollBehavior: NoStretchScrollBehavior(),
+      locale: locale,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const AuthWrapper(),
     );
   }

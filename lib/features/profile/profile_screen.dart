@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/app_form_fields.dart';
 import '../../data/providers/auth_provider.dart';
+import '../../data/providers/locale_provider.dart';
 import 'change_password_screen.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -418,7 +419,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         const SizedBox(height: 12),
         _LanguageSelector(
           selected: _selectedLanguage,
-          onChanged: (lang) => setState(() => _selectedLanguage = lang),
+          onChanged: (lang) {
+            setState(() => _selectedLanguage = lang);
+            ref.read(localeProvider.notifier).setLocale(lang);
+          },
         ),
       ],
     );

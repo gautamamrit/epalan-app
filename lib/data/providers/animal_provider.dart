@@ -365,13 +365,14 @@ class AlertsNotifier extends StateNotifier<AlertsState> {
 
   String? get _farmId => _ref.read(selectedFarmProvider)?.id;
 
-  Future<void> loadAlerts() async {
-    if (_farmId == null || state.isLoading) return;
+  Future<void> loadAlerts({String? farmId}) async {
+    final id = farmId ?? _farmId;
+    if (id == null || state.isLoading) return;
 
     state = state.copyWith(isLoading: true, error: null);
     try {
       // Single API call — no N+1
-      final alerts = await _animalService.getFarmAlerts(_farmId!);
+      final alerts = await _animalService.getFarmAlerts(id);
       final List<AlertItem> allAlerts = [];
 
       for (final v in alerts.vaccinations) {

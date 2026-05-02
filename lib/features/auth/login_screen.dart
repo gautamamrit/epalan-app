@@ -5,6 +5,8 @@ import '../../core/api/api_client.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/app_form_fields.dart';
 import '../../data/providers/auth_provider.dart';
+import '../../data/providers/locale_provider.dart';
+import '../../l10n/app_localizations.dart';
 import 'forgot_password_screen.dart';
 import 'register_screen.dart';
 
@@ -27,32 +29,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isResending = false;
   int _currentPage = 0;
 
-  final List<_OnboardingSlide> _slides = [
-    _OnboardingSlide(
-      title: 'Welcome to\nePalan!',
-      subtitle: 'Farmer\'s Companion, Always\nकिसानको साथी, हरपल',
-      illustrationType: _IllustrationType.farm,
-    ),
-    _OnboardingSlide(
-      title: 'Smart Farm\nManagement',
-      subtitle: 'Smart farm management for modern\nlivestock farmers.',
-      illustrationType: _IllustrationType.animals,
-    ),
-    _OnboardingSlide(
-      title: 'Track Your\nAnimals',
-      subtitle: 'Monitor health, growth, and performance\nof all your livestock.',
-      illustrationType: _IllustrationType.animals,
-    ),
-    _OnboardingSlide(
-      title: 'Health\nManagement',
-      subtitle: 'Never miss vaccinations or medications\nwith smart reminders.',
-      illustrationType: _IllustrationType.health,
-    ),
-    _OnboardingSlide(
-      title: 'Insights &\nAnalytics',
-      subtitle: 'Make data-driven decisions with\ndetailed reports and charts.',
-      illustrationType: _IllustrationType.analytics,
-    ),
+  List<_OnboardingSlide> _getSlides(AppLocalizations l10n) => [
+    _OnboardingSlide(title: l10n.welcomeToEpalan, subtitle: l10n.farmersCompanion, illustrationType: _IllustrationType.farm),
+    _OnboardingSlide(title: l10n.smartFarmManagement, subtitle: l10n.smartFarmManagementDesc, illustrationType: _IllustrationType.animals),
+    _OnboardingSlide(title: l10n.trackYourAnimals, subtitle: l10n.trackYourAnimalsDesc, illustrationType: _IllustrationType.animals),
+    _OnboardingSlide(title: l10n.healthManagement, subtitle: l10n.healthManagementDesc, illustrationType: _IllustrationType.health),
+    _OnboardingSlide(title: l10n.insightsAnalytics, subtitle: l10n.insightsAnalyticsDesc, illustrationType: _IllustrationType.analytics),
   ];
 
   @override
@@ -64,7 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void _nextPage() {
-    if (_currentPage < _slides.length - 1) {
+    if (_currentPage < 4) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -155,18 +137,143 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildWelcomeScreen() {
+    final l10n = AppLocalizations.of(context);
+    final slides = _getSlides(l10n);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
+            // Image carousel — centered on screen
+            Center(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.42,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    PageView.builder(
+                      controller: _pageController,
+                      itemCount: slides.length,
+                      onPageChanged: (index) => setState(() => _currentPage = index),
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Image.asset('assets/images/welcome_hero.png', fit: BoxFit.contain),
+                            ),
+                          );
+                        }
+                        return Center(child: _buildIllustration(slides[index].illustrationType));
+                      },
+                    ),
+                    if (_currentPage > 0)
+                      Positioned(
+                        left: 24, top: 0, bottom: 0,
+                        child: Center(
+                          child: Material(
+                            color: Colors.white.withValues(alpha: 0.85),
+                            shape: const CircleBorder(),
+                            elevation: 2,
+                            child: InkWell(
+                              onTap: () => _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut),
+                              customBorder: const CircleBorder(),
+                              child: Container(width: 44, height: 44, alignment: Alignment.center,
+                                child: const Icon(Icons.chevron_left_rounded, color: AppColors.textSecondary, size: 28)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    Positioned(
+                      right: 24, top: 0, bottom: 0,
+                      child: Center(
+                        child: Material(
+                          color: AppColors.primaryDark,
+                          shape: const CircleBorder(),
+                          elevation: 4,
+                          shadowColor: AppColors.shadow,
+                          child: InkWell(
+                            onTap: _nextPage,
+                            customBorder: const CircleBorder(),
+                            child: Container(width: 56, height: 56, alignment: Alignment.center,
+                              child: const Icon(Icons.chevron_right_rounded, color: AppColors.textOnPrimary, size: 32)),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Content layered on top
+            Column(
+              children: [
+            // Language selector (top-right)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withValues(alpha: 0.06),
+                      borderRadius: BorderRadius.circular(22),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: ref.watch(localeProvider).languageCode,
+                        icon: const Icon(Icons.keyboard_arrow_down, size: 18, color: AppColors.primary),
+                        isDense: true,
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primary),
+                        items: const [
+                          DropdownMenuItem(value: 'en', child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.language, size: 18, color: AppColors.primary),
+                              SizedBox(width: 8),
+                              Text('English'),
+                            ],
+                          )),
+                          DropdownMenuItem(value: 'ne', child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.language, size: 18, color: AppColors.primary),
+                              SizedBox(width: 8),
+                              Text('नेपाली'),
+                            ],
+                          )),
+                        ],
+                        selectedItemBuilder: (context) => [
+                          Row(mainAxisSize: MainAxisSize.min, children: const [
+                            Icon(Icons.language, size: 16, color: AppColors.primary),
+                            SizedBox(width: 6),
+                            Text('English', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primary)),
+                          ]),
+                          Row(mainAxisSize: MainAxisSize.min, children: const [
+                            Icon(Icons.language, size: 16, color: AppColors.primary),
+                            SizedBox(width: 6),
+                            Text('नेपाली', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primary)),
+                          ]),
+                        ],
+                        onChanged: (code) {
+                          if (code != null) ref.read(localeProvider.notifier).setLocale(code);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             const SizedBox(height: 8),
 
             // Page indicators
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                _slides.length,
+                slides.length,
                 (index) => AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -182,133 +289,65 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             ),
 
-            const SizedBox(height: 34),
+            const SizedBox(height: 24),
 
             // Title and subtitle
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
-                  Text(
-                    _slides[_currentPage].title,
-                    style: const TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryDark,
-                      height: 1.2,
+                  if (_currentPage == 0) ...[
+                    const Text(
+                      'ePalan',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 40,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                        letterSpacing: -0.5,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    _slides[_currentPage].subtitle,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: AppColors.textSecondary,
-                      height: 1.5,
+                    const SizedBox(height: 6),
+                    Text(
+                      l10n.slogan,
+                      style: const TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.textSecondary,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
+                  ]
+                  else
+                    Text(
+                      slides[_currentPage].title,
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary,
+                        height: 1.2,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  if (_currentPage > 0) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      slides[_currentPage].subtitle,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: AppColors.textSecondary,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ],
               ),
             ),
 
-            const SizedBox(height: 50),
-
-            // Illustration carousel
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.38,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  PageView.builder(
-                    controller: _pageController,
-                    itemCount: _slides.length,
-                    onPageChanged: (index) {
-                      setState(() {
-                        _currentPage = index;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        return Center(
-                          child: Image.asset(
-                            'assets/images/farm_welcome.png',
-                            fit: BoxFit.contain,
-                          ),
-                        );
-                      }
-                      return Center(
-                        child: _buildIllustration(_slides[index].illustrationType),
-                      );
-                    },
-                  ),
-
-                  // Previous button
-                  if (_currentPage > 0)
-                    Positioned(
-                      left: 24,
-                      top: 0,
-                      bottom: 0,
-                      child: Center(
-                        child: Material(
-                          color: AppColors.primaryDark,
-                          shape: const CircleBorder(side: BorderSide(color: AppColors.border, width: 2)),
-                          elevation: 4,
-                          shadowColor: AppColors.shadow,
-                          child: InkWell(
-                            onTap: _previousPage,
-                            customBorder: const CircleBorder(),
-                            splashColor: Colors.white.withValues(alpha: 0.2),
-                            child: Container(
-                              width: 56,
-                              height: 56,
-                              alignment: Alignment.center,
-                              child: const Icon(
-                                Icons.chevron_left_rounded,
-                                color: AppColors.textOnPrimary,
-                                size: 32,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  // Next button
-                  Positioned(
-                    right: 24,
-                    top: 0,
-                    bottom: 0,
-                    child: Center(
-                      child: Material(
-                        color: AppColors.primaryDark,
-                        shape: const CircleBorder(side: BorderSide(color: AppColors.border, width: 2)),
-                        elevation: 4,
-                        shadowColor: AppColors.shadow,
-                        child: InkWell(
-                          onTap: _nextPage,
-                          customBorder: const CircleBorder(),
-                          splashColor: Colors.white.withValues(alpha: 0.2),
-                          child: Container(
-                            width: 56,
-                            height: 56,
-                            alignment: Alignment.center,
-                            child: const Icon(
-                              Icons.chevron_right_rounded,
-                              color: AppColors.textOnPrimary,
-                              size: 32,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 49),
+            const Spacer(),
 
             // Bottom section
             Padding(
@@ -317,7 +356,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 children: [
                   // Login button
                   AppPrimaryButton(
-                    label: 'Log In',
+                    label: l10n.logIn,
                     onPressed: () {
                       setState(() {
                         _showLoginForm = true;
@@ -338,9 +377,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         setState(() => _showLoginForm = result == 'login');
                       }
                     },
-                    child: const Text(
-                      'Create a new account',
-                      style: TextStyle(
+                    child: Text(
+                      l10n.createNewAccount,
+                      style: const TextStyle(
                         fontSize: 16,
                         color: AppColors.primary,
                         fontWeight: FontWeight.w500,
@@ -351,7 +390,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             ),
           ],
-        ),
+        ), // end inner Column
+          ], // end Stack children
+        ), // end Stack
       ),
     );
   }
@@ -821,6 +862,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _buildLoginForm(AuthState authState) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -839,9 +881,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20),
-                const Text(
-                  'Log In',
-                  style: TextStyle(
+                Text(
+                  l10n.logIn,
+                  style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryDark,
@@ -849,9 +891,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Enter your credentials to continue',
-                  style: TextStyle(
+                Text(
+                  l10n.enterCredentials,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: AppColors.textSecondary,
                   ),
@@ -860,7 +902,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 40),
                 AppTextField(
                   controller: _emailOrPhoneController,
-                  label: 'Email *',
+                  label: l10n.email,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   validator: (value) {
@@ -873,7 +915,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 16),
                 AppTextField(
                   controller: _passwordController,
-                  label: 'Password *',
+                  label: l10n.password,
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _handleLogin(),
@@ -903,15 +945,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       MaterialPageRoute(
                           builder: (_) => const ForgotPasswordScreen()),
                     ),
-                    child: const Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: AppColors.primary),
+                    child: Text(
+                      l10n.forgotPassword,
+                      style: const TextStyle(color: AppColors.primary),
                     ),
                   ),
                 ),
                 const SizedBox(height: 24),
                 AppPrimaryButton(
-                  label: 'Log In',
+                  label: l10n.logIn,
                   isLoading: authState.isLoading,
                   onPressed: _handleLogin,
                 ),
@@ -963,9 +1005,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      "Don't have an account? ",
-                      style: TextStyle(color: AppColors.textSecondary),
+                    Text(
+                      l10n.dontHaveAccount,
+                      style: const TextStyle(color: AppColors.textSecondary),
                     ),
                     TextButton(
                       onPressed: () async {
@@ -979,9 +1021,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           setState(() => _showLoginForm = false);
                         }
                       },
-                      child: const Text(
-                        'Sign Up',
-                        style: TextStyle(
+                      child: Text(
+                        l10n.signUp,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.primary,
                         ),

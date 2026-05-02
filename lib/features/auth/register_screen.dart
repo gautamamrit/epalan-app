@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/widgets/app_form_fields.dart';
 import '../../data/providers/auth_provider.dart';
+import '../../l10n/app_localizations.dart';
 import 'verify_account_screen.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -62,7 +63,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         final error = ref.read(authProvider).error;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(error ?? 'Registration failed'),
+            content: Text(error ?? AppLocalizations.of(context).registrationFailed),
             backgroundColor: AppColors.error,
           ),
         );
@@ -73,6 +74,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -108,8 +110,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Title
-                const Text(
-                  'Create Account',
+                Text(
+                  l10n.createAccount,
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,
@@ -118,8 +120,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'Join ePalan to manage your farm',
+                Text(
+                  l10n.joinEpalan,
                   style: TextStyle(
                     fontSize: 15,
                     color: AppColors.textSecondary,
@@ -129,14 +131,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 32),
 
                 // Name fields
-                const AppSectionHeader('Name'),
+                AppSectionHeader(l10n.name),
                 const SizedBox(height: 10),
                 AppTextField(
                   controller: _firstNameController,
-                  label: 'First Name *',
+                  label: l10n.firstName,
                   textInputAction: TextInputAction.next,
                   validator: (v) =>
-                      v == null || v.trim().isEmpty ? 'Required' : null,
+                      v == null || v.trim().isEmpty ? l10n.required : null,
                 ),
                 const SizedBox(height: 12),
                 Row(
@@ -144,7 +146,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Expanded(
                       child: AppTextField(
                         controller: _middleNameController,
-                        label: 'Middle Name',
+                        label: l10n.middleName,
                         textInputAction: TextInputAction.next,
                       ),
                     ),
@@ -152,10 +154,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     Expanded(
                       child: AppTextField(
                         controller: _lastNameController,
-                        label: 'Last Name *',
+                        label: l10n.lastName,
                         textInputAction: TextInputAction.next,
                         validator: (v) =>
-                            v == null || v.trim().isEmpty ? 'Required' : null,
+                            v == null || v.trim().isEmpty ? l10n.required : null,
                       ),
                     ),
                   ],
@@ -164,19 +166,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const AppFormDivider(),
 
                 // Email
-                const AppSectionHeader('Email'),
+                AppSectionHeader(l10n.email.replaceAll(' *', '')),
                 const SizedBox(height: 10),
                 AppTextField(
                   controller: _emailController,
-                  label: 'Email *',
+                  label: l10n.email,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your email';
+                      return l10n.pleaseEnterEmail;
                     }
                     if (!value.contains('@') || !value.contains('.')) {
-                      return 'Please enter a valid email';
+                      return l10n.pleaseEnterValidEmail;
                     }
                     return null;
                   },
@@ -185,11 +187,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const AppFormDivider(),
 
                 // Password
-                const AppSectionHeader('Password'),
+                AppSectionHeader(l10n.password.replaceAll(' *', '')),
                 const SizedBox(height: 10),
                 AppTextField(
                   controller: _passwordController,
-                  label: 'Password *',
+                  label: l10n.password,
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.next,
                   suffixIcon: IconButton(
@@ -204,10 +206,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
+                      return l10n.pleaseEnterPassword;
                     }
                     if (value.length < 6) {
-                      return 'At least 6 characters';
+                      return l10n.atLeast6Characters;
                     }
                     return null;
                   },
@@ -215,7 +217,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 12),
                 AppTextField(
                   controller: _confirmPasswordController,
-                  label: 'Confirm Password *',
+                  label: l10n.confirmPassword,
                   obscureText: _obscureConfirmPassword,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (_) => _handleRegister(),
@@ -231,10 +233,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                      return l10n.pleaseConfirmPassword;
                     }
                     if (value != _passwordController.text) {
-                      return 'Passwords do not match';
+                      return l10n.passwordsDoNotMatch;
                     }
                     return null;
                   },
@@ -244,7 +246,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
                 // Register button
                 AppPrimaryButton(
-                  label: 'Create Account',
+                  label: l10n.createAccount,
                   isLoading: authState.isLoading,
                   onPressed: _handleRegister,
                 ),
@@ -255,14 +257,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Already have an account? ',
+                    Text(
+                      l10n.alreadyHaveAccount,
                       style: TextStyle(color: AppColors.textSecondary),
                     ),
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'login'),
-                      child: const Text(
-                        'Log In',
+                      child: Text(
+                        l10n.logIn,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.primary,

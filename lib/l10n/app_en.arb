@@ -1,0 +1,354 @@
+{
+  "@@locale": "en",
+
+  "appName": "ePalan",
+  "@appName": { "description": "App name displayed in header" },
+
+  "welcome": "Welcome, {name}!",
+  "@welcome": { "description": "Home screen greeting", "placeholders": { "name": { "type": "String" } } },
+
+  "welcomeSubtitle": "Latest livestock prices in your area",
+  "@welcomeSubtitle": { "description": "Market prices subtitle" },
+
+  "home": "Home",
+  "@home": { "description": "Home tab label" },
+
+  "animals": "Animals",
+  "@animals": { "description": "Animals tab label" },
+
+  "prices": "Prices",
+  "@prices": { "description": "Prices tab label" },
+
+  "more": "More",
+  "@more": { "description": "More tab label" },
+
+  "marketPrices": "Market Prices",
+  "@marketPrices": { "description": "Market prices screen title" },
+
+  "quickActions": "Quick actions",
+  "@quickActions": { "description": "Quick actions card title" },
+
+  "addAnimal": "Add\nAnimal",
+  "@addAnimal": { "description": "Add animal quick action label" },
+
+  "dailyRecord": "Daily\nRecord",
+  "@dailyRecord": { "description": "Daily record quick action label" },
+
+  "scanQr": "Scan\nQR",
+  "@scanQr": { "description": "Scan QR quick action label" },
+
+  "selectFarm": "Select Farm",
+  "@selectFarm": { "description": "Farm selector placeholder" },
+
+  "selectProvince": "Select Province",
+  "@selectProvince": { "description": "Province selector placeholder" },
+
+  "allItems": "All Items",
+  "@allItems": { "description": "Item filter default text" },
+
+  "itemsSelected": "{count} items selected",
+  "@itemsSelected": { "description": "Item filter selection text", "placeholders": { "count": { "type": "int" } } },
+
+  "filterItems": "Filter Items",
+  "@filterItems": { "description": "Item filter sheet title" },
+
+  "clearAll": "Clear all",
+  "@clearAll": { "description": "Clear all filters button" },
+
+  "dueToday": "Due today",
+  "@dueToday": { "description": "Due today section title" },
+
+  "overdue": "Overdue",
+  "@overdue": { "description": "Overdue section title" },
+
+  "noOverdueTasks": "No overdue tasks",
+  "@noOverdueTasks": { "description": "No overdue tasks message" },
+
+  "allCaughtUp": "All caught up!",
+  "@allCaughtUp": { "description": "All tasks done title" },
+
+  "noHealthTasksDueToday": "No health tasks due today",
+  "@noHealthTasksDueToday": { "description": "No tasks due subtitle" },
+
+  "selectFarmToSeeOverview": "Select a farm to see overview",
+  "@selectFarmToSeeOverview": { "description": "No farm selected message" },
+
+  "active": "Active",
+  "@active": { "description": "Active filter tab" },
+
+  "past": "Past",
+  "@past": { "description": "Past filter tab" },
+
+  "noActiveAnimals": "No active animals",
+  "@noActiveAnimals": { "description": "Empty state title for active animals" },
+
+  "addAnimalsToBeginTracking": "Add animals to begin tracking",
+  "@addAnimalsToBeginTracking": { "description": "Empty state subtitle for active animals" },
+
+  "noPastAnimals": "No past animals",
+  "@noPastAnimals": { "description": "Empty state title for past animals" },
+
+  "pastAnimalsWillAppearHere": "Past animals will appear here",
+  "@pastAnimalsWillAppearHere": { "description": "Empty state subtitle for past animals" },
+
+  "dailyRecords": "Daily Records",
+  "@dailyRecords": { "description": "Daily records section title" },
+
+  "vaccinations": "Vaccinations",
+  "@vaccinations": { "description": "Vaccinations section title" },
+
+  "medications": "Medications",
+  "@medications": { "description": "Medications section title" },
+
+  "nRecords": "{count} records",
+  "@nRecords": { "description": "Record count", "placeholders": { "count": { "type": "int" } } },
+
+  "noRecordsYet": "No records yet",
+  "@noRecordsYet": { "description": "Empty records message" },
+
+  "addYourFirstDailyRecord": "Add your first daily record",
+  "@addYourFirstDailyRecord": { "description": "Empty records subtitle" },
+
+  "nPendingOfTotal": "{pending} pending of {total}",
+  "@nPendingOfTotal": { "description": "Pending count", "placeholders": { "pending": { "type": "int" }, "total": { "type": "int" } } },
+
+  "noVaccinationsScheduled": "No vaccinations scheduled",
+  "@noVaccinationsScheduled": { "description": "Empty vaccinations message" },
+
+  "noMedicationsScheduled": "No medications scheduled",
+  "@noMedicationsScheduled": { "description": "Empty medications message" },
+
+  "edit": "Edit",
+  "@edit": { "description": "Edit action label" },
+
+  "delete": "Delete",
+  "@delete": { "description": "Delete action label" },
+
+  "endTracking": "End\nTracking",
+  "@endTracking": { "description": "End tracking action label" },
+
+  "qrCode": "QR\nCode",
+  "@qrCode": { "description": "QR code action label" },
+
+  "add": "Add",
+  "@add": { "description": "Add button label" },
+
+  "save": "Save",
+  "@save": { "description": "Save button label" },
+
+  "cancel": "Cancel",
+  "@cancel": { "description": "Cancel button label" },
+
+  "retry": "Retry",
+  "@retry": { "description": "Retry button label" },
+
+  "markComplete": "Mark Complete",
+  "@markComplete": { "description": "Mark complete button label" },
+
+  "completed": "COMPLETED",
+  "@completed": { "description": "Completed section header" },
+
+  "pending": "PENDING",
+  "@pending": { "description": "Pending section header" },
+
+  "updated": "Updated {time}",
+  "@updated": { "description": "Updated time ago text", "placeholders": { "time": { "type": "String" } } },
+
+  "source": "Source: {name}",
+  "@source": { "description": "Price source text", "placeholders": { "name": { "type": "String" } } },
+
+  "noDataAvailable": "No data available",
+  "@noDataAvailable": { "description": "No data message" },
+
+  "noPriceDataAvailable": "No price data available",
+  "@noPriceDataAvailable": { "description": "No prices title" },
+
+  "pricesWillAppearHere": "Prices will appear here once available",
+  "@pricesWillAppearHere": { "description": "No prices subtitle" },
+
+  "failedToLoadPrices": "Failed to load prices",
+  "@failedToLoadPrices": { "description": "Price load error message" },
+
+  "showTrend": "Show trend",
+  "@showTrend": { "description": "Show chart trend button" },
+
+  "hideTrend": "Hide trend",
+  "@hideTrend": { "description": "Hide chart trend button" },
+
+  "latestPrices": "Latest Prices",
+  "@latestPrices": { "description": "Latest prices section title" },
+
+  "manageFarms": "Manage Farms",
+  "@manageFarms": { "description": "Manage farms menu item" },
+
+  "team": "Team",
+  "@team": { "description": "Team menu item" },
+
+  "helpAndSupport": "Help & Support",
+  "@helpAndSupport": { "description": "Help menu item" },
+
+  "logout": "Logout",
+  "@logout": { "description": "Logout button" },
+
+  "logoutConfirmation": "Are you sure you want to logout?",
+  "@logoutConfirmation": { "description": "Logout confirmation message" },
+
+  "viewProfile": "View Profile",
+  "@viewProfile": { "description": "View profile button" },
+
+  "version": "Version {number}",
+  "@version": { "description": "App version text", "placeholders": { "number": { "type": "String" } } },
+
+  "guestUser": "Guest User",
+  "@guestUser": { "description": "Default user name" },
+
+  "pleaseSelectFarmFirst": "Please select a farm first",
+  "@pleaseSelectFarmFirst": { "description": "No farm selected error" },
+
+  "noActiveAnimalsToRecord": "No active animals to record for",
+  "@noActiveAnimalsToRecord": { "description": "No animals for record error" },
+
+  "selectAnimal": "Select Animal",
+  "@selectAnimal": { "description": "Animal picker title" },
+
+  "nActiveAnimals": "{count} active {count, plural, =1{animal} other{animals}}",
+  "@nActiveAnimals": { "description": "Active animal count", "placeholders": { "count": { "type": "int" } } },
+
+  "alive": "Alive",
+  "@alive": { "description": "Alive stat label" },
+
+  "mortality": "Mortality",
+  "@mortality": { "description": "Mortality stat label" },
+
+  "language": "Language",
+  "@language": { "description": "Language setting label" },
+
+  "english": "English",
+  "@english": { "description": "English language option" },
+
+  "nepali": "Nepali",
+  "@nepali": { "description": "Nepali language option" },
+
+  "province": "Province",
+  "@province": { "description": "Province label" },
+
+  "items": "Items",
+  "@items": { "description": "Items label" },
+
+  "welcomeToEpalan": "Welcome to\nePalan!",
+  "@welcomeToEpalan": { "description": "Onboarding slide 1 title" },
+
+  "farmersCompanion": "Farmer's Companion, Always\nकिसानको साथी, हरपल",
+  "@farmersCompanion": { "description": "Onboarding slide 1 subtitle" },
+
+  "slogan": "Farmer's Companion, Always",
+  "@slogan": { "description": "Brand slogan below ePalan name" },
+
+  "smartFarmManagement": "Smart Farm\nManagement",
+  "@smartFarmManagement": { "description": "Onboarding slide 2 title" },
+
+  "smartFarmManagementDesc": "Smart farm management for modern\nlivestock farmers.",
+  "@smartFarmManagementDesc": { "description": "Onboarding slide 2 subtitle" },
+
+  "trackYourAnimals": "Track Your\nAnimals",
+  "@trackYourAnimals": { "description": "Onboarding slide 3 title" },
+
+  "trackYourAnimalsDesc": "Monitor health, growth, and performance\nof all your livestock.",
+  "@trackYourAnimalsDesc": { "description": "Onboarding slide 3 subtitle" },
+
+  "healthManagement": "Health\nManagement",
+  "@healthManagement": { "description": "Onboarding slide 4 title" },
+
+  "healthManagementDesc": "Never miss vaccinations or medications\nwith smart reminders.",
+  "@healthManagementDesc": { "description": "Onboarding slide 4 subtitle" },
+
+  "insightsAnalytics": "Insights &\nAnalytics",
+  "@insightsAnalytics": { "description": "Onboarding slide 5 title" },
+
+  "insightsAnalyticsDesc": "Make data-driven decisions with\ndetailed reports and charts.",
+  "@insightsAnalyticsDesc": { "description": "Onboarding slide 5 subtitle" },
+
+  "logIn": "Log In",
+  "@logIn": { "description": "Log in button" },
+
+  "createNewAccount": "Create a new account",
+  "@createNewAccount": { "description": "Create account link" },
+
+  "enterCredentials": "Enter your credentials to continue",
+  "@enterCredentials": { "description": "Login subtitle" },
+
+  "email": "Email *",
+  "@email": { "description": "Email field label" },
+
+  "password": "Password *",
+  "@password": { "description": "Password field label" },
+
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": { "description": "Forgot password link" },
+
+  "dontHaveAccount": "Don't have an account? ",
+  "@dontHaveAccount": { "description": "No account text" },
+
+  "signUp": "Sign Up",
+  "@signUp": { "description": "Sign up link" },
+
+  "createAccount": "Create Account",
+  "@createAccount": { "description": "Create account button/title" },
+
+  "joinEpalan": "Join ePalan to manage your farm",
+  "@joinEpalan": { "description": "Register subtitle" },
+
+  "name": "Name",
+  "@name": { "description": "Name section header" },
+
+  "firstName": "First Name *",
+  "@firstName": { "description": "First name field" },
+
+  "middleName": "Middle Name",
+  "@middleName": { "description": "Middle name field" },
+
+  "lastName": "Last Name *",
+  "@lastName": { "description": "Last name field" },
+
+  "confirmPassword": "Confirm Password *",
+  "@confirmPassword": { "description": "Confirm password field" },
+
+  "required": "Required",
+  "@required": { "description": "Required field error" },
+
+  "pleaseEnterEmail": "Please enter your email",
+  "@pleaseEnterEmail": { "description": "Email validation error" },
+
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "@pleaseEnterValidEmail": { "description": "Email format error" },
+
+  "pleaseEnterPassword": "Please enter a password",
+  "@pleaseEnterPassword": { "description": "Password validation error" },
+
+  "atLeast6Characters": "At least 6 characters",
+  "@atLeast6Characters": { "description": "Password length error" },
+
+  "pleaseConfirmPassword": "Please confirm your password",
+  "@pleaseConfirmPassword": { "description": "Confirm password error" },
+
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": { "description": "Password mismatch error" },
+
+  "alreadyHaveAccount": "Already have an account? ",
+  "@alreadyHaveAccount": { "description": "Already have account text" },
+
+  "registrationFailed": "Registration failed",
+  "@registrationFailed": { "description": "Registration error" },
+
+  "forgotPasswordTitle": "Forgot Password",
+  "@forgotPasswordTitle": { "description": "Forgot password screen title" },
+
+  "forgotPasswordDesc": "Enter your email and we'll send you a reset code",
+  "@forgotPasswordDesc": { "description": "Forgot password description" },
+
+  "sendResetCode": "Send Reset Code",
+  "@sendResetCode": { "description": "Send reset code button" },
+
+  "enterValidEmail": "Enter a valid email",
+  "@enterValidEmail": { "description": "Email validation" }
+}

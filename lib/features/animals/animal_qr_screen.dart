@@ -36,7 +36,23 @@ class AnimalQrScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        leading: AppBackButton(),
+        toolbarHeight: 72,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Center(
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: 36, height: 36,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.arrow_back, color: AppColors.primary, size: 20),
+              ),
+            ),
+          ),
+        ),
         centerTitle: true,
         title: const Text(
           'QR Code',
