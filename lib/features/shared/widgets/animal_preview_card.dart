@@ -34,7 +34,6 @@ class AnimalPreviewCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppColors.border),
         ),
         child: Row(
           children: [

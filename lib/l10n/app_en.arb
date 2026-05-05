@@ -244,29 +244,29 @@
   "slogan": "Farmer's Companion, Always",
   "@slogan": { "description": "Brand slogan below ePalan name" },
 
-  "smartFarmManagement": "Smart Farm\nManagement",
+  "smartFarmManagement": "Manage All\nYour Farms",
   "@smartFarmManagement": { "description": "Onboarding slide 2 title" },
 
-  "smartFarmManagementDesc": "Smart farm management for modern\nlivestock farmers.",
+  "smartFarmManagementDesc": "Multiple farms, team members, and all\nlivestock types in one place.",
   "@smartFarmManagementDesc": { "description": "Onboarding slide 2 subtitle" },
 
-  "trackYourAnimals": "Track Your\nAnimals",
+  "trackYourAnimals": "Track Every\nAnimal",
   "@trackYourAnimals": { "description": "Onboarding slide 3 title" },
 
-  "trackYourAnimalsDesc": "Monitor health, growth, and performance\nof all your livestock.",
+  "trackYourAnimalsDesc": "Log mortality, weight, feed, and eggs\n— see performance at a glance.",
   "@trackYourAnimalsDesc": { "description": "Onboarding slide 3 subtitle" },
 
-  "healthManagement": "Health\nManagement",
+  "healthManagement": "Stay On Top\nof Health",
   "@healthManagement": { "description": "Onboarding slide 4 title" },
 
-  "healthManagementDesc": "Never miss vaccinations or medications\nwith smart reminders.",
+  "healthManagementDesc": "Recommended schedules for vaccinations\nand medications — reminders included.",
   "@healthManagementDesc": { "description": "Onboarding slide 4 subtitle" },
 
-  "insightsAnalytics": "Insights &\nAnalytics",
-  "@insightsAnalytics": { "description": "Onboarding slide 5 title" },
+  "liveMarketPrices": "Live Market\nPrices",
+  "@liveMarketPrices": { "description": "Onboarding slide 5 title" },
 
-  "insightsAnalyticsDesc": "Make data-driven decisions with\ndetailed reports and charts.",
-  "@insightsAnalyticsDesc": { "description": "Onboarding slide 5 subtitle" },
+  "liveMarketPricesDesc": "Check today's livestock prices by\nprovince before you buy or sell.",
+  "@liveMarketPricesDesc": { "description": "Onboarding slide 5 subtitle" },
 
   "logIn": "Log In",
   "@logIn": { "description": "Log in button" },

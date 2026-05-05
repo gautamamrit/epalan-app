@@ -11,7 +11,7 @@ import 'add_record_screen.dart';
 import 'scan_qr_screen.dart';
 
 const _navy = AppColors.primary;
-const _navyLight = Color(0xFF2D2380);
+const _navyLight = Color(0xFF356D3D);  // primaryAlt green
 const _bg = AppColors.background;
 const _textDark = AppColors.textPrimary;
 const _textMuted = AppColors.textSecondary;
@@ -42,7 +42,7 @@ class _AnimalsScreenState extends ConsumerState<AnimalsScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: _navy,
+        backgroundColor: _bg,
         body: RefreshIndicator(
           color: AppColors.primary,
           onRefresh: () async {
@@ -414,7 +414,6 @@ class _ActiveAnimalCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: AppColors.border),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -456,7 +455,6 @@ class _ActiveAnimalCard extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: _bg,
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppColors.border),
                         ),
                         child: Text(
                           'DAY ${animal.daysElapsed}',

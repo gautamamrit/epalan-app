@@ -77,7 +77,6 @@ class AnimalQrScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppColors.border),
                         ),
                         child: Column(
                           children: [

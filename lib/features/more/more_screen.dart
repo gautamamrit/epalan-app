@@ -10,7 +10,7 @@ import '../shared/widgets/app_shell.dart';
 import '../team/team_screen.dart';
 
 const _navy = AppColors.primary;
-const _navyLight = Color(0xFF2D2380);
+const _navyLight = Color(0xFF356D3D);  // primaryAlt green
 const _bg = AppColors.background;
 const _textDark = AppColors.textPrimary;
 const _textMuted = AppColors.textSecondary;
@@ -53,7 +53,7 @@ class MoreScreen extends ConsumerWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: _navy,
+        backgroundColor: _bg,
         body: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
           child: Column(
@@ -173,7 +173,6 @@ class MoreScreen extends ConsumerWidget {
                         decoration: BoxDecoration(
                           color: AppColors.surface,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.border),
                         ),
                         child: Column(
                           children: [
@@ -206,7 +205,6 @@ class MoreScreen extends ConsumerWidget {
                         decoration: BoxDecoration(
                           color: AppColors.surface,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.border),
                         ),
                         child: _MenuItem(
                           icon: Icons.logout,

@@ -34,7 +34,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _OnboardingSlide(title: l10n.smartFarmManagement, subtitle: l10n.smartFarmManagementDesc, illustrationType: _IllustrationType.animals),
     _OnboardingSlide(title: l10n.trackYourAnimals, subtitle: l10n.trackYourAnimalsDesc, illustrationType: _IllustrationType.animals),
     _OnboardingSlide(title: l10n.healthManagement, subtitle: l10n.healthManagementDesc, illustrationType: _IllustrationType.health),
-    _OnboardingSlide(title: l10n.insightsAnalytics, subtitle: l10n.insightsAnalyticsDesc, illustrationType: _IllustrationType.analytics),
+    _OnboardingSlide(title: l10n.liveMarketPrices, subtitle: l10n.liveMarketPricesDesc, illustrationType: _IllustrationType.analytics),
   ];
 
   @override
@@ -147,7 +147,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             // Image carousel — centered on screen
             Center(
               child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.42,
+                height: MediaQuery.of(context).size.height * 0.50,
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -164,39 +164,70 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                           );
                         }
+                        if (index == 1) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Image.asset('assets/images/onboarding_farm.png', fit: BoxFit.contain),
+                            ),
+                          );
+                        }
+                        if (index == 2) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Image.asset('assets/images/onboarding_track.png', fit: BoxFit.contain),
+                            ),
+                          );
+                        }
+                        if (index == 3) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Image.asset('assets/images/onboarding_health.png', fit: BoxFit.contain),
+                            ),
+                          );
+                        }
+                        if (index == 4) {
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Image.asset('assets/images/onboarding_prices.png', fit: BoxFit.contain),
+                            ),
+                          );
+                        }
                         return Center(child: _buildIllustration(slides[index].illustrationType));
                       },
                     ),
                     if (_currentPage > 0)
                       Positioned(
-                        left: 24, top: 0, bottom: 0,
+                        left: 12, top: 0, bottom: 0,
                         child: Center(
                           child: Material(
-                            color: Colors.white.withValues(alpha: 0.85),
+                            color: AppColors.primary.withValues(alpha: 0.85),
                             shape: const CircleBorder(),
-                            elevation: 2,
+                            elevation: 0,
                             child: InkWell(
                               onTap: () => _pageController.previousPage(duration: const Duration(milliseconds: 300), curve: Curves.easeInOut),
                               customBorder: const CircleBorder(),
-                              child: Container(width: 44, height: 44, alignment: Alignment.center,
-                                child: const Icon(Icons.chevron_left_rounded, color: AppColors.textSecondary, size: 28)),
+                              child: Container(width: 48, height: 48, alignment: Alignment.center,
+                                child: const Icon(Icons.chevron_left_rounded, color: AppColors.textOnPrimary, size: 28)),
                             ),
                           ),
                         ),
                       ),
                     Positioned(
-                      right: 24, top: 0, bottom: 0,
+                      right: 12, top: 0, bottom: 0,
                       child: Center(
                         child: Material(
-                          color: AppColors.primaryDark,
+                          color: AppColors.primary.withValues(alpha: 0.85),
                           shape: const CircleBorder(),
-                          elevation: 4,
-                          shadowColor: AppColors.shadow,
+                          elevation: 0,
                           child: InkWell(
                             onTap: _nextPage,
                             customBorder: const CircleBorder(),
-                            child: Container(width: 56, height: 56, alignment: Alignment.center,
-                              child: const Icon(Icons.chevron_right_rounded, color: AppColors.textOnPrimary, size: 32)),
+                            child: Container(width: 48, height: 48, alignment: Alignment.center,
+                              child: const Icon(Icons.chevron_right_rounded, color: AppColors.textOnPrimary, size: 28)),
                           ),
                         ),
                       ),
@@ -228,22 +259,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         isDense: true,
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.primary),
                         items: const [
-                          DropdownMenuItem(value: 'en', child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.language, size: 18, color: AppColors.primary),
-                              SizedBox(width: 8),
-                              Text('English'),
-                            ],
-                          )),
-                          DropdownMenuItem(value: 'ne', child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.language, size: 18, color: AppColors.primary),
-                              SizedBox(width: 8),
-                              Text('नेपाली'),
-                            ],
-                          )),
+                          DropdownMenuItem(value: 'en', child: Text('English')),
+                          DropdownMenuItem(value: 'ne', child: Text('नेपाली')),
                         ],
                         selectedItemBuilder: (context) => [
                           Row(mainAxisSize: MainAxisSize.min, children: const [
@@ -300,11 +317,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const Text(
                       'ePalan',
                       style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 40,
-                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Fraunces',
+                        fontSize: 56,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.primary,
-                        letterSpacing: -0.5,
+                        letterSpacing: -1.12,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -314,7 +331,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 15,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w500,
                         color: AppColors.textSecondary,
                       ),
                       textAlign: TextAlign.center,
@@ -351,7 +368,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
             // Bottom section
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
               child: Column(
                 children: [
                   // Login button

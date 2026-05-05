@@ -331,7 +331,6 @@ class _TeamScreenState extends ConsumerState<TeamScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
             ),
             child: Column(
               children: [

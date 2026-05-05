@@ -269,32 +269,32 @@ class AppLocalizationsNe extends AppLocalizations {
   String get slogan => 'किसानको साथी, हरपल';
 
   @override
-  String get smartFarmManagement => 'स्मार्ट फार्म\nव्यवस्थापन';
+  String get smartFarmManagement => 'आफ्ना सबै फार्म\nव्यवस्थापन गर्नुहोस्';
 
   @override
   String get smartFarmManagementDesc =>
-      'आधुनिक पशुपालन किसानहरूको लागि\nस्मार्ट फार्म व्यवस्थापन।';
+      'धेरै फार्म, टोली सदस्य, र सबै\nपशुधन प्रकार एकै ठाउँमा।';
 
   @override
-  String get trackYourAnimals => 'तपाईंका पशुहरू\nट्र्याक गर्नुहोस्';
+  String get trackYourAnimals => 'हरेक पशु\nट्र्याक गर्नुहोस्';
 
   @override
   String get trackYourAnimalsDesc =>
-      'तपाईंका सबै पशुधनको स्वास्थ्य, वृद्धि\nर प्रदर्शन अनुगमन गर्नुहोस्।';
+      'मृत्युदर, तौल, दाना, र अण्डा रेकर्ड\nगर्नुहोस् — प्रदर्शन एक नजरमा।';
 
   @override
-  String get healthManagement => 'स्वास्थ्य\nव्यवस्थापन';
+  String get healthManagement => 'स्वास्थ्यमा\nअगाडि रहनुहोस्';
 
   @override
   String get healthManagementDesc =>
-      'स्मार्ट रिमाइन्डरहरूको साथ खोप वा\nऔषधि कहिल्यै नछुटाउनुहोस्।';
+      'खोप र औषधिको सिफारिस तालिका\n— रिमाइन्डर सहित।';
 
   @override
-  String get insightsAnalytics => 'अन्तर्दृष्टि र\nविश्लेषण';
+  String get liveMarketPrices => 'लाइभ बजार\nमूल्य';
 
   @override
-  String get insightsAnalyticsDesc =>
-      'विस्तृत रिपोर्ट र चार्टहरूको साथ\nडाटामा आधारित निर्णयहरू लिनुहोस्।';
+  String get liveMarketPricesDesc =>
+      'किन्नु वा बेच्नु अघि आजको पशुधन\nमूल्य प्रदेश अनुसार हेर्नुहोस्।';
 
   @override
   String get logIn => 'लग इन';

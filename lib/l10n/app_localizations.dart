@@ -587,50 +587,50 @@ abstract class AppLocalizations {
   /// Onboarding slide 2 title
   ///
   /// In en, this message translates to:
-  /// **'Smart Farm\nManagement'**
+  /// **'Manage All\nYour Farms'**
   String get smartFarmManagement;
 
   /// Onboarding slide 2 subtitle
   ///
   /// In en, this message translates to:
-  /// **'Smart farm management for modern\nlivestock farmers.'**
+  /// **'Multiple farms, team members, and all\nlivestock types in one place.'**
   String get smartFarmManagementDesc;
 
   /// Onboarding slide 3 title
   ///
   /// In en, this message translates to:
-  /// **'Track Your\nAnimals'**
+  /// **'Track Every\nAnimal'**
   String get trackYourAnimals;
 
   /// Onboarding slide 3 subtitle
   ///
   /// In en, this message translates to:
-  /// **'Monitor health, growth, and performance\nof all your livestock.'**
+  /// **'Log mortality, weight, feed, and eggs\n— see performance at a glance.'**
   String get trackYourAnimalsDesc;
 
   /// Onboarding slide 4 title
   ///
   /// In en, this message translates to:
-  /// **'Health\nManagement'**
+  /// **'Stay On Top\nof Health'**
   String get healthManagement;
 
   /// Onboarding slide 4 subtitle
   ///
   /// In en, this message translates to:
-  /// **'Never miss vaccinations or medications\nwith smart reminders.'**
+  /// **'Recommended schedules for vaccinations\nand medications — reminders included.'**
   String get healthManagementDesc;
 
   /// Onboarding slide 5 title
   ///
   /// In en, this message translates to:
-  /// **'Insights &\nAnalytics'**
-  String get insightsAnalytics;
+  /// **'Live Market\nPrices'**
+  String get liveMarketPrices;
 
   /// Onboarding slide 5 subtitle
   ///
   /// In en, this message translates to:
-  /// **'Make data-driven decisions with\ndetailed reports and charts.'**
-  String get insightsAnalyticsDesc;
+  /// **'Check today\'s livestock prices by\nprovince before you buy or sell.'**
+  String get liveMarketPricesDesc;
 
   /// Log in button
   ///

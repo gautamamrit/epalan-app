@@ -275,32 +275,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get slogan => 'Farmer\'s Companion, Always';
 
   @override
-  String get smartFarmManagement => 'Smart Farm\nManagement';
+  String get smartFarmManagement => 'Manage All\nYour Farms';
 
   @override
   String get smartFarmManagementDesc =>
-      'Smart farm management for modern\nlivestock farmers.';
+      'Multiple farms, team members, and all\nlivestock types in one place.';
 
   @override
-  String get trackYourAnimals => 'Track Your\nAnimals';
+  String get trackYourAnimals => 'Track Every\nAnimal';
 
   @override
   String get trackYourAnimalsDesc =>
-      'Monitor health, growth, and performance\nof all your livestock.';
+      'Log mortality, weight, feed, and eggs\n— see performance at a glance.';
 
   @override
-  String get healthManagement => 'Health\nManagement';
+  String get healthManagement => 'Stay On Top\nof Health';
 
   @override
   String get healthManagementDesc =>
-      'Never miss vaccinations or medications\nwith smart reminders.';
+      'Recommended schedules for vaccinations\nand medications — reminders included.';
 
   @override
-  String get insightsAnalytics => 'Insights &\nAnalytics';
+  String get liveMarketPrices => 'Live Market\nPrices';
 
   @override
-  String get insightsAnalyticsDesc =>
-      'Make data-driven decisions with\ndetailed reports and charts.';
+  String get liveMarketPricesDesc =>
+      'Check today\'s livestock prices by\nprovince before you buy or sell.';
 
   @override
   String get logIn => 'Log In';

@@ -393,7 +393,6 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.border),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -506,7 +505,6 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.border),
           ),
           child: Column(
             children: [
@@ -944,7 +942,7 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFF2D2380), Color(0xFF1B1464)],
+                  colors: [Color(0xFF356D3D), Color(0xFF254A2A)],
                 ),
                 shape: BoxShape.circle,
                 boxShadow: [
@@ -1355,7 +1353,6 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.border),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1826,7 +1823,6 @@ class _AnimalDetailScreenState extends ConsumerState<AnimalDetailScreen>
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
               ),
               child: Column(
                 children: [

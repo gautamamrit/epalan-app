@@ -15,7 +15,7 @@ import '../../l10n/app_localizations.dart';
 
 // ── Palette aliases ──
 const _navy = AppColors.primary;
-const _navyLight = Color(0xFF2D2380);
+const _navyLight = Color(0xFF356D3D);  // primaryAlt green
 const _bg = AppColors.background;
 const _cardBorder = AppColors.border;
 const _textDark = AppColors.textPrimary;
@@ -45,7 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: _navy,
+        backgroundColor: _bg,
         body: RefreshIndicator(
           color: AppColors.primary,
           onRefresh: () async {
@@ -267,7 +267,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: _cardBorder),
                           ),
                           child: overdueAlerts.isEmpty
                               ? Row(
@@ -332,7 +331,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: _cardBorder),
                           ),
                           child: Column(
                             children: [
@@ -355,7 +353,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: _cardBorder),
                           ),
                           child: Column(
                             children: [
@@ -602,7 +599,6 @@ class _SectionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: _cardBorder),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
